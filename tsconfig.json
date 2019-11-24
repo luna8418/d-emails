@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2016",
+    "sourceMap": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "lib": [
+      "dom",
+      "es2017",
+      "esnext.asynciterable"
+    ],
+    "paths": {
+      "#test/*": [
+        "./test/*"
+      ],
+      "#app/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "src/**/*"
+  ],
+  "compileOnSave": true
+}

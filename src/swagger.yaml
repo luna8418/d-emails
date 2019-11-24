@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: d-emails
+  description: D. emails services
+servers:
+  - url: http://localhost:2010/
+paths:
+  "/v1/emails":
+    parameters:
+      - in: header
+        name: x-trace-token
+        schema:
+          type: string
+    post:
+      operationId: sendEmail
+      summary: send or queue an email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                  format: email
+                to:
+                  type: string
+                  format: email
+                cc:
+                  type: string
+                  format: email
+                bcc:
+                  type: string
+                  format: email
+                subject:
+                  type: string
+                content:
+                  type: string
+              required:
+                - to
+                - subject
+                - content
+      responses:
+        "200":
+          description: send or queue email successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                  status:
+                    type: string
+                    enum: ['QUEUED', 'SENT', 'FAILED']
+                required:
+                  - id
+                  - status
+        "400":
+          description: invalid request
+        "500":
+          description: server error
+
+  "/v1/emails/{id}":
+    parameters:
+      - in: header
+        name: 'x-trace-token'
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getEmail
+      summary: get email status
+      responses:
+        "200":
+          description: get email status successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                  status:
+                    type: string
+                    enum: ['QUEUED', 'SENT', 'FAILED']
+                required:
+                  - id
+                  - status
+        "400":
+          description: invalid request
+        "404":
+          description: unable to find the email
+        "500":
+          description: server error
+    delete:
+      operationId: deleteEmail
+      summary: delete email
+      responses:
+        "200":
+          description: the email is deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                  deleted:
+                    type: boolean
+                required:
+                  - id
+                  - deleted
+        "400":
+          description: invalid request
+        "404":
+          description: unable to find email
+        "500":
+          description: server error
