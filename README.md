@@ -32,6 +32,8 @@ After reading through the requirement, I made the below decisions:
 
 ## How to start local server
 
+Change SENDGRID_API_KEY in `.env` before running the following commands
+
 ```
 npm i
 DOTENV=.env npm run dev
